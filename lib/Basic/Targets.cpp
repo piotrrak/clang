@@ -4261,15 +4261,15 @@ X86TargetInfo::convertConstraint(const char *&Constraint) const {
     switch (Constraint[1]) {
     default:
       // Break from inner switch and fall through (copy single char),
-      // continue parsing after copying the current constraint into 
+      // continue parsing after copying the current constraint into
       // the return string.
       break;
     case 'k':
       // "^" hints llvm that this is a 2 letter constraint.
-      // "Constraint++" is used to promote the string iterator 
+      // "Constraint++" is used to promote the string iterator
       // to the next constraint.
       return std::string("^") + std::string(Constraint++, 2);
-    } 
+    }
     LLVM_FALLTHROUGH;
   default:
     return std::string(1, *Constraint);
@@ -6410,6 +6410,7 @@ public:
     switch (*Name) {
       case 'v':
       case 'q':
+      case 'w':
         if (HasHVX) {
           Info.setAllowsRegister();
           return true;
@@ -6562,12 +6563,29 @@ void HexagonTargetInfo::setFeatureEnabled(llvm::StringMap<bool> &Features,
 }
 
 const char *const HexagonTargetInfo::GCCRegNames[] = {
+  // Integer registers
   "r0", "r1", "r2", "r3", "r4", "r5", "r6", "r7",
   "r8", "r9", "r10", "r11", "r12", "r13", "r14", "r15",
   "r16", "r17", "r18", "r19", "r20", "r21", "r22", "r23",
   "r24", "r25", "r26", "r27", "r28", "r29", "r30", "r31",
+  // Register pairs
+  "d0", "d1", "d2", "d3", "d4", "d5", "d6", "d7",
+  "d8", "d9", "d10", "d11", "d12", "d13", "d14", "d15"
+
+  // Predicate registers
   "p0", "p1", "p2", "p3",
-  "sa0", "lc0", "sa1", "lc1", "m0", "m1", "usr", "ugp"
+  "sa0", "lc0", "sa1", "lc1", "m0", "m1", "usr", "ugp",
+
+  // Vector registers
+  "v0", "v1", "v2", "v3", "v4", "v5", "v6", "v7",
+  "v8", "v9", "v10", "v11", "v12", "v13", "v14", "v15",
+  "v16", "v17", "v18", "v19", "v20", "v21", "v22", "v23",
+  "v24", "v25", "v26", "v27", "v28", "v29", "v30", "v31",
+
+  // Vector register pairs
+  "w0", "w1", "w2", "w3", "w4", "w5", "w6", "w7",
+  "w8", "w9", "w10", "w11", "w12", "w13", "w14", "w15",
+
 };
 
 ArrayRef<const char*> HexagonTargetInfo::getGCCRegNames() const {
